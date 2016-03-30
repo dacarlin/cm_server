@@ -13,14 +13,49 @@
       <code>{{ results.job_id }}</code>
       <h4>Your input sequence:</h4>
       <code>
-        {{ results.original_input[:61] }}… 
+        {{ results.original_input[:61] }}…
       </code>
-      <h4>Found {{ results.templates|length }} templates</h4>
-        <ol>
-          {% for template in results.templates %}
-          <li>{{ template }}</li>
-          {% endfor %}
-        </ol>
+      <p><br><br></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><strong>Templates</strong></div>
+        <div class="panel-body">
+          <p>Found {{ results.templates|length }} templates</p>
+        </div>
+        <table class="table">
+          <thead>
+            <th>
+              Template
+            </th>
+            <th>
+              Sequence
+            </th>
+            <th>
+              Value
+            </th>
+          </thead>
+          <tbody>
+            {% for template in results.templates %}
+            <tr>
+              <td>
+                {{ template.name }}
+              </td>
+              <td>
+                {{ template.sequence }}
+              </td>
+              <td>
+                {{ template.value }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
