@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    {% for key in my_dict.keys() %}
+    <div class="col-sm-6 col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{name}}</h3>
+        </div>
+        <div class="panel-body">
+          <img src="data:image/svg+xml;utf8,{{plot}}" alt="...">
+          {% for note in notes %}
+            <div class="alert alert-warning" role="alert"><small><b>WARNING</b></small> {{note|safe}}</div>
+          {% endfor %}
+            <!-- <p><a href="#" class="btn btn-primary" role="button">Download</a> <a href="#" class="btn" role="button">Discard</a></p> -->
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Yeild</th>
+                <th><em>k</em><sub>cat</sub></th>
+                <th>K<sub>M</sub></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{conc}}</td>
+                <td>{{popt[0]|round(1)}}&nbsp;±&nbsp;{{perr[0]|round(1)}}%</td>
+                <td>{{(popt[1]*1000)|round(1)}}&nbsp;±&nbsp;{{perr[1]|round(1)}}%</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+<!-- csv -->
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Results as CSV</h3>
+        <pre>sample,protein_yield,kcat,percent_err_kcat,km,percent_err_km
+{% for name, conc, popt, perr, plot, notes in samples -%}
+{{name}},{{conc}},{{popt[0]|round(1)}},{{perr[0]|round(1)}}%,{{(popt[1]*1000)|round(2)}},{{perr[1]|round(1)}}%{{'\n'}}
+{%- endfor %}</pre>
+    </div>
+  </div>
+</div>
+{% endblock %}
