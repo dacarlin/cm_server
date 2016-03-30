@@ -12,7 +12,6 @@ def index():
         return render_template( 'index.html' )
     elif request.method == 'POST':
         # get data from form
-
         job_id = uuid.uuid1()
         raw_fasta = request.form.get( 'fasta' )
         benchmark_check = request.form.get( 'benchmark_check' )
