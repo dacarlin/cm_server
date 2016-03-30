@@ -9,14 +9,15 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <h1>Siegel Lab comparative modeling server</h1>
-      <h4>Your input sequence</h4>
+      <h4>Job ID:</h4>
+      <code>{{ results.job_id }}</code>
+      <h4>Your input sequence:</h4>
       <code>
-        {{ my_dict.original_input }}
+        {{ results.original_input[:61] }}… 
       </code>
-      <h4>Found {{ my_dict.templates|length }} templates</h4>
+      <h4>Found {{ results.templates|length }} templates</h4>
         <ol>
-          {% for template in my_dict.templates %}
+          {% for template in results.templates %}
           <li>{{ template }}</li>
           {% endfor %}
         </ol>
