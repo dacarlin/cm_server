@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}CM Server{% endblock %}
+{% block head %}{{ super() }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <h1>Siegel Lab comparative modeling server</h1>
+      <form action="" method="POST">
+        <fieldset class="form-group">
+          <label for="fasta">Enter a FASTA sequence (or run the example):</label>
+          <textarea class="form-control" id="fasta" name="fasta" rows="10">>2JIE&#13;&#10;MHHHHHHSENTFIFPATFMWGTSTSSYQIEGGTDEGGRTPSIWDTFCQIPGKVIGGDCGDVACDHFHHFKEDVQLMKQLGFLHYRFSVAWPRIMPAAGIINEEGLLFYEHLLDEIELAGLIPMLTLYHWDLPQWIEDEGGWTQRETIQHFKTYASVIMDRFGERINWWNTINEPYCASILGYGTGEHAPGHENWREAFTAAHHILMCHGIASNLHKEKGLTGKIGITLNMEHVDAASERPEDVAAAIRRDGFINRWFAEPLFNGKYPEDMVEWYGTYLNGLDFVQPGDMELIQQPGDFLGINYYTRSIIRSTNDASLLQVEQVHMEEPVTDMGWEIHPESFYKLLTRIEKDFSKGLPILITENGAAMRDELVNGQIEDTGRHGYIEEHLKACHRFIEEGGQLKGYFVWSFLDNFEWAWGYSKRFGIVHINYETQERTPKQSALWFKQMMAKNGF</textarea>
+        </fieldset>
+        <fieldset>
+          <label class="checkbox-inline" for="benchmark_check">
+            <input type="checkbox" class="" id="benchmark_check">
+            Benchmark this submission
+          </label>
+        </fieldset>
+        <fieldset>
+          <input type="text" class="form-control" id="email" placeholder="Enter email">
+          <small class="text-muted">If you want to be notified when your job completes</small>
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

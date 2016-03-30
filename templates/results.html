@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <h1>Siegel Lab comparative modeling server</h1>
+      <h4>Your input sequence</h4>
+      <code>
+        {{ my_dict.original_input }}
+      </code>
+      <h4>Found {{ my_dict.templates|length }} templates</h4>
+        <ol>
+          {% for template in my_dict.templates %}
+          <li>{{ template }}</li>
+          {% endfor %}
+        </ol>
+    </div>
+  </div>
+</div>
+{% endblock %}

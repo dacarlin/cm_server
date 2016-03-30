@@ -73,7 +73,6 @@
 #       notes = []
 #       if float( conc ) < 0.2:
 #           notes.append( 'Protein yield is below 0.2 mg/mL' )
-#
 #       if perr[0] > 25:
 #           notes.append( '<em>k</em><sub>cat</sub> error is greater than 25%' )
 #       if perr[1] > 25:
@@ -83,12 +82,8 @@
 #       fig, ax = plt.subplots( figsize=(3,3) )
 #       ax.scatter( df.s, df.kobs, color='cornflowerblue', alpha=0.9, marker='.' )
 #       xvals = linspace( df.s.min(), df.s.max(), 100 )
-#
-#       # check for MM params
-#       if popt[0] > 1:
+#       if popt[0] > 1: # check for MM params
 #         ax.plot( xvals, kobs( xvals, *popt ), alpha=0.7, color='k' )
-#
-#       # finish up plots
 #       ax.set_title( name )
 #       ax.set_xlabel( '[pNPG] (M)' )
 #       ax.set_ylabel( 'Rate (min$^{-1}$)' )
@@ -115,28 +110,32 @@
 # if __name__ == '__main__':
 #   app.run()
 
-
-
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from matplotlib import use; use( 'Agg' ) # this is necessary for Flask, has to come before pyplot import
+import matplotlib.pyplot as plt
+import pandas
 app = Flask(__name__)
 
-@app.route('/')
-def index( methods=['GET', 'POST'] ):
+@app.route('/', methods=['GET', 'POST'] )
+def index():
     if request.method == 'GET':
         return render_template( 'index.html' )
     elif request.method == 'POST':
-        # form logic
+        # get data from form
+        raw_fasta = request.form.get( 'fasta' )
+        benchmark_check = request.form.get( 'benchmark_check' )
 
-        fasta = request.form.get( 'data' )
-        checked = request.form.get( 'bench_check' )
+        # do things with form data
 
+        # collect all the things we want to pass to template as Python objects
         my_dict = {
-            "templates": [],
-            'other_info': {},
-            'scalar value': 0, 
+            'templates': [],
+            'name': None,
+            'original_input': raw_fasta,
         }
 
+        # return rendered results template
         return render_template( 'results.html', my_dict=my_dict )
 
 if __name__ == '__main__':
-  app.run( debug=True )
+  app.run( debug=True ) # this is only for testing, it will break WSGI deployment
