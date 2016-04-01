@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 import pandas
 import uuid
 from modules.seq import hmmerapi
-#import StringIO
+
 from cStringIO import StringIO
+import os
+import json
 
 app = Flask(__name__)
 
@@ -29,7 +31,12 @@ def index():
         ## Ie, why run again if we've already got the results
         ## mostly for debugging
 
-        jsonhits = hmmerapi.run_phmmer( myseq, 'pdb' )
+        if os.path.isfile('pdb.json'):
+            print "Using previous, this is just for testing!"
+            f = open('pdb.json','r')
+            jsonhits = json.load(f)
+        else:
+            jsonhits = hmmerapi.run_phmmer( myseq, 'pdb' )
 
         records = SeqIO.to_dict( hmmerapi.remove_dup_seqs( SeqIO.parse('pdb', 'fasta')) )
 
@@ -70,6 +77,8 @@ def index():
         }
 
         # return rendered results template
+
+#        cleanup()
         return render_template( 'results.html', results=results )
 
 @app.route('/job/<job_id>', methods=['GET', 'POST'] )
@@ -119,3 +128,9 @@ if __name__ == '__main__':
 #
 # # iterate over 4 samples by name, in entered order (see sort=False above)
 # for name, df in grouped:
+
+def cleanup():
+    import os
+    os.remove('pdb')
+    os.remove('pdb.gz')
+    os.remove('pdb.json')
