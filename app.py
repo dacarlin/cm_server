@@ -4,6 +4,10 @@ from matplotlib import use; use( 'Agg' ) # this is necessary for Flask, has to c
 import matplotlib.pyplot as plt
 import pandas
 import uuid
+from modules.seq import hmmerapi
+#import StringIO
+from cStringIO import StringIO
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'] )
@@ -15,13 +19,39 @@ def index():
         job_id = uuid.uuid1()
         raw_fasta = request.form.get( 'fasta' )
         benchmark_check = request.form.get( 'benchmark_check' )
+        fastainput = StringIO(raw_fasta)
 
-        # do things with form data
+        ## Read the raw fasta into a biopython seqio object
+#        myseq = SeqIO.to_dict( SeqIO.parse( fastainput, 'fasta' ))  #this is for multiple sequences
+        myseq = SeqIO.read(fastainput,'fasta')
+        ## Now that we have the input target sequence,
+        ## we should check to see if it's stored in any of the json output
+        ## Ie, why run again if we've already got the results
+        ## mostly for debugging
 
+        jsonhits = hmmerapi.run_phmmer( myseq, 'pdb' )
+        
+        mytemplateresults = []
+        for i in range(0,len(jsonhits['results']['hits'])):
+            
+            mytemplateresults.append( { 'name': str(jsonhits['results']['hits'][i]['acc'] ),
+'seq': "NA",
+'pid': " 00 PID",
+'idx':i
+
+ } )
+
+        print mytemplateresults
+#need to read in the full fasta to get the sequence of the hit
+# this should actually just be lazy loaded post template selection 
+#            mytemplateresults['seq'] = 
         # collect all the things we want to pass to template as Python objects
         results = {
+            'Total Number of Hits': len(jsonhits['results']['hits']),
             'job_id': job_id,
-            'templates': [],
+            'templates': mytemplateresults,
+#how to i add shit to the templates???? fucking html
+#            'hmmer jobid' : jsonhits['results']['uuid'],
             'name': None,
             'original_input': raw_fasta,
         }

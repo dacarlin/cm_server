@@ -36,12 +36,15 @@
               Sequence
             </th>
             <th>
-              Value
+              PID
             </th>
           </thead>
           <tbody>
             {% for template in results.templates %}
             <tr>
+	      <td>
+		{{ template.idx }}
+	      </td>
               <td>
                 {{ template.name }}
               </td>
@@ -49,7 +52,7 @@
                 {{ template.sequence }}
               </td>
               <td>
-                {{ template.value }}
+                {{ template.pid }}
               </td>
             </tr>
             {% endfor %}
