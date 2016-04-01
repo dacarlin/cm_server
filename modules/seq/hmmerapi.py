@@ -6,6 +6,8 @@ import gzip
 import json
 import subprocess
 from re import search,compile
+from Bio.SeqUtils.CheckSum import seguid
+from Bio import SeqIO
 
 # Below is a parser for the command line output from various hmmer and esl tools
 # One for the esl-alipid
@@ -118,3 +120,13 @@ def get_pid(name):
 
     mytemplatesequences = filter_pid(mylist)
     return mytemplatesequences
+
+def remove_dup_seqs(records):
+    checksums = set()
+    for record in records:
+        checksum = seguid(record.seq)
+        if checksum in checksums:
+            print "Ignoring %s" % record.id
+            continue
+        checksums.add(checksum)
+        yield record

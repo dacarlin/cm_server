@@ -30,16 +30,29 @@ def index():
         ## mostly for debugging
 
         jsonhits = hmmerapi.run_phmmer( myseq, 'pdb' )
-        
+
+        records = SeqIO.to_dict( hmmerapi.remove_dup_seqs( SeqIO.parse('pdb', 'fasta')) )
+
+        for i in records:
+            print i
+            print list(i)
+
         mytemplateresults = []
         for i in range(0,len(jsonhits['results']['hits'])):
-            
-            mytemplateresults.append( { 'name': str(jsonhits['results']['hits'][i]['acc'] ),
-'seq': "NA",
-'pid': " 00 PID",
-'idx':i
+            mypdbcode = str(jsonhits['results']['hits'][i]['acc'] )
+            try:
+                mytemplateresults.append( { 'name': mypdbcode,
+                                            'seq': str(records[mypdbcode].seq),
+                                            'pid': " Not Calc Yet",
+                                            'idx':i,
+                                        } )
 
- } )
+            except:
+                mytemplateresults.append( { 'name': mypdbcode,
+                                            'seq': 'NA',
+                                            'pid': " Not Calc Yet",
+                                            'idx':i,
+                                        } )
 
         print mytemplateresults
 #need to read in the full fasta to get the sequence of the hit
