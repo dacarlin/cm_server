@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+
+      <!-- metadata for this submission -->
+      <h4>Next thing</h4>
+      <p>We are making an alignment using Promals 3D<br><br></p>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><strong>You selected these templates</strong></div>
+        <div class="panel-body">
+          <p>You selected {{ picks|length }} templates, we are making an alignment using Promals 3D </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

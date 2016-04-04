@@ -42,18 +42,18 @@ class SmartRedirectHandler(urllib2.HTTPRedirectHandler):
 def run_phmmer(seq,database):
     '''
     Takes an input seqeunce and returns a json object from HMMER3 server
-    
+
 
     :param seq: assumes is a bio.seqrecord
     :type seq: This is a bio.seqrecord sequence protein fasta
     :return json: Returns the hmmer json object
-    
+
     :Example
     """ Give example here ;) """"
 
    '''
     mydatabase = database
-    res_params ={'output':'json','range':'1,100'}                   # don't forget to grab search params                       
+    res_params ={'output':'json','range':'1,100'}                   # don't forget to grab search params
     json_file_name = "%s.%s" %(database,res_params['output'])
 
 
@@ -130,3 +130,13 @@ def remove_dup_seqs(records):
             continue
         checksums.add(checksum)
         yield record
+
+import requests
+def submit_phmmer( fasta_seq ):
+
+    url = 'http://www.ebi.ac.uk/Tools/hmmer/search/phmmer&seqdb=pdb&seq={}'.format( fasta_seq )
+    r = requests.post( url )
+
+    print dir( r )
+
+    return r

@@ -9,12 +9,19 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
+
+      <!-- metadata for this submission -->
       <h4>Job ID:</h4>
       <code>{{ results.job_id }}</code>
+
+      <h4>HMMER job ID:</h4>
+      <code>{{ results.hmmer_jobid }}</code>
+
       <h4>Your input sequence:</h4>
       <code>
         {{ results.original_input[:61] }}…
       </code>
+
       <p><br><br></p>
     </div>
   </div>
@@ -30,6 +37,9 @@
         <table class="table">
           <thead>
             <th>
+              Index
+            </th>
+            <th>
               Template
             </th>
             <th>
@@ -38,24 +48,36 @@
             <th>
               PID
             </th>
+            <th>
+              Select templates
+            </th>
           </thead>
           <tbody>
+            <form action="/templates" method="POST">
             {% for template in results.templates %}
             <tr>
-	      <td>
-		{{ template.idx }}
-	      </td>
+      	      <td>
+      		      {{ template.idx }}
+      	      </td>
               <td>
                 {{ template.name }}
               </td>
               <td>
-                {{ template.sequence }}
+                <code>{{ template.seq[:35] }}...</code>
               </td>
               <td>
                 {{ template.pid }}
               </td>
+              <td>
+                <input type="checkbox" name="{{template.name}}">
+                  {{ template.name }}
+                </input>
+              </td>
             </tr>
             {% endfor %}
+            <input type="hidden" name="session_data" value="{{session.data}}"></input>
+            <input type="submit"></input>
+            </form>
           </tbody>
         </table>
       </div>
